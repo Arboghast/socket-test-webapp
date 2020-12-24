@@ -24,8 +24,13 @@ class App extends React.Component {
       console.log(prompt, error);
     });
 
-    socket.on('updateText', ({ playerName, percentage, placement, error }) => {
-      console.log(playerName, percentage, placement, error);
+    socket.on('updateText', ({ users }) => {
+      console.log(users);
+      for(let i = 0; i < users.legnth; i++)
+      {
+        let {percentage, placement, wpm} = users[i];
+        console.log(percentage, placement, wpm);
+      }
     });
 
   };
@@ -48,7 +53,7 @@ class App extends React.Component {
 
         <button onClick={() => { socket.emit('startGame', { lobbyCode: "arceux" }); }}>START</button>
 
-        <button onClick={() => { socket.emit('letterTyped', { lobbyCode: "arceux", percentage: ++this.num }); }}>INC</button>
+        <button onClick={() => { socket.emit('letterTyped', { lobbyCode: "arceux", percentage: ++this.num, wpm: Math.floor(Math.random() * 100) + 1   }); }}>INC</button>
 
         <button onClick={() => { socket.emit('kickPlayer', { lobbyCode: "arceux", playerName: "monkeies" }); }}>KICK</button>
       </div>
